@@ -85,7 +85,7 @@ func runCheck() {
 		}
 
 		if interval == 0 {
-			time.Sleep(3 * time.Second)
+			time.Sleep(60 * time.Second)
 		} else {
 			time.Sleep(time.Duration(interval) * time.Second)
 		}
@@ -116,26 +116,18 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if service.Interactive() {
+	if service.Interactive() && len(os.Args) > 1 {
 		if isAdmin() {
-			if len(os.Args) > 1 {
-				if os.Args[1] != "reinstall" {
-					service.Control(s, os.Args[1])
-				}
-
-				return
-			}
-
-			runAsAdmin(exePath, "reinstall")
-			time.Sleep(3 * time.Second)
-			log.Println("Service watch-git reinstalled successfully")
+			service.Control(s, os.Args[1])
+		} else {
+			log.Printf("Please '%s' program as root/admin", os.Args[1])
 		}
 
-		runCheck()
-	} else {
-		err = s.Run()
-		if err != nil {
-			log.Println(err)
-		}
+		return
+	}
+
+	err = s.Run()
+	if err != nil {
+		log.Println(err)
 	}
 }

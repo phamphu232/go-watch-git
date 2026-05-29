@@ -50,7 +50,7 @@ func Load() {
 			ServerAddress:        "",
 			WatchFolders:         []string{""},
 			GoogleWebhooks:       []string{""},
-			MesageTemplate:       "Warning",
+			MesageTemplate:       "Alert",
 			Interval:             30,
 			AlwaysNotifyOnChange: false,
 			LogRetentionDays:     14,
@@ -84,7 +84,7 @@ func Load() {
 	lastModTime = info.ModTime()
 	configLock.Unlock()
 
-	log.Println("Config loaded successfully")
+	// log.Println("Config loaded successfully")
 }
 
 func WatchConfig(interval time.Duration) {

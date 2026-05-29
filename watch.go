@@ -71,7 +71,7 @@ func checkSourceCode() {
 						continue
 					}
 					log.Printf("Post to Google Chat")
-					message := fmt.Sprintf("%s\n⚠️There is/are %d modified file(s) at: %s:%s\n```%s```", config.GetConfig().MesageTemplate, changeCount, config.GetConfig().ServerAddress, folder, changeStr)
+					message := fmt.Sprintf("%s\nThere is/are %d modified file(s) at: %s:%s\n```%s```", "⚠️"+config.GetConfig().MesageTemplate, changeCount, config.GetConfig().ServerAddress, folder, changeStr)
 					PostToGoogleChat(message, webhook)
 				}
 			} else {
@@ -81,7 +81,7 @@ func checkSourceCode() {
 						continue
 					}
 					log.Printf("Post to Google Chat")
-					message := fmt.Sprintf("%s\n✅There is/are %d modified file(s) at: %s:%s", config.GetConfig().MesageTemplate, 0, config.GetConfig().ServerAddress, folder)
+					message := fmt.Sprintf("%s\nThere is/are %d modified file(s) at: %s:%s", "✅"+config.GetConfig().MesageTemplate, 0, config.GetConfig().ServerAddress, folder)
 					PostToGoogleChat(message, webhook)
 				}
 			}
