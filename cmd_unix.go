@@ -1,0 +1,42 @@
+//go:build !windows
+
+package main
+
+import (
+	"fmt"
+	"os/exec"
+	"os/user"
+	"runtime"
+)
+
+func runAsAdmin(exePath string, args string) error {
+	var cmd string
+
+	switch args {
+	case "reinstall":
+		cmd = fmt.Sprintf("%q stop && %q uninstall && %q install && %q start", exePath, exePath, exePath, exePath)
+	default:
+		cmd = fmt.Sprintf("%q %s", exePath, args)
+	}
+
+	switch runtime.GOOS {
+	case "darwin":
+		appleScript := fmt.Sprintf("do shell script \"sh -c %q\" with administrator privileges", cmd)
+		return exec.Command("osascript", "-e", appleScript).Run()
+
+	case "linux":
+		return exec.Command("pkexec", "sh", "-c", cmd).Run()
+
+	default:
+		return fmt.Errorf("error: OS %s not supported", runtime.GOOS)
+	}
+}
+
+func isAdmin() bool {
+	currentUser, err := user.Current()
+	if err != nil {
+		return false
+	}
+
+	return currentUser.Uid == "0"
+}
