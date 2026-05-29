@@ -51,7 +51,7 @@ func checkSourceCode() {
 		changeCount := len(changes)
 		shouldPushNotify := false
 
-		if state.changeFileCount != changeCount {
+		if state.changeFileCount != changeCount || (config.GetConfig().AlwaysNotifyOnChange && changeCount > 0) {
 			shouldPushNotify = true
 			state.changeFileCount = changeCount
 		}

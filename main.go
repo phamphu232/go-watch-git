@@ -79,17 +79,17 @@ func runCheck() {
 	for {
 		interval := config.GetConfig().Interval
 
-		if interval == 0 {
-			if service.Interactive() {
-				log.Println("watch-git break to exit, interval = 0")
-				break
-			} else {
-				time.Sleep(3 * time.Second)
-				continue
-			}
+		if interval == 0 && service.Interactive() {
+			log.Println("watch-git stopped because interval = 0")
+			break
 		}
 
-		time.Sleep(time.Duration(config.GetConfig().Interval) * time.Second)
+		if interval == 0 {
+			time.Sleep(3 * time.Second)
+		} else {
+			time.Sleep(time.Duration(interval) * time.Second)
+		}
+
 		checkSourceCode()
 	}
 

@@ -10,12 +10,13 @@ import (
 )
 
 type Config struct {
-	ServerAddress    string   `json:"server_address"`     // Server address
-	WatchFolders     []string `json:"watch_folders"`      // Folders to watch (comma separated)
-	GoogleWebhooks   []string `json:"google_webhooks"`    // Google Chat webhook URLs(comma separated)
-	MesageTemplate   string   `json:"message_template"`   // Message template
-	Interval         int      `json:"interval"`           // Interval (seconds)
-	LogRetentionDays int      `json:"log_retention_days"` // Log retention days
+	ServerAddress        string   `json:"server_address"`          // Server address
+	WatchFolders         []string `json:"watch_folders"`           // Folders to watch (comma separated)
+	GoogleWebhooks       []string `json:"google_webhooks"`         // Google Chat webhook URLs(comma separated)
+	MesageTemplate       string   `json:"message_template"`        // Message template
+	Interval             int      `json:"interval"`                // Interval (seconds)
+	AlwaysNotifyOnChange bool     `json:"always_notify_on_change"` // Always notify on change
+	LogRetentionDays     int      `json:"log_retention_days"`      // Log retention days
 }
 
 var (
@@ -46,12 +47,13 @@ func Load() {
 	if os.IsNotExist(err) {
 		configLock.Lock()
 		AppConfig = Config{
-			ServerAddress:    "",
-			WatchFolders:     []string{""},
-			GoogleWebhooks:   []string{""},
-			MesageTemplate:   "Warning",
-			Interval:         30,
-			LogRetentionDays: 14,
+			ServerAddress:        "",
+			WatchFolders:         []string{""},
+			GoogleWebhooks:       []string{""},
+			MesageTemplate:       "Warning",
+			Interval:             30,
+			AlwaysNotifyOnChange: false,
+			LogRetentionDays:     14,
 		}
 		configLock.Unlock()
 
