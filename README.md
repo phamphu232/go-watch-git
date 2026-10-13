@@ -6,7 +6,9 @@ sudo mkdir /opt/watch-git
 ## Copy binary watch-git file to /opt/watch-git
 
 
+git config --system --add safe.directory '*'
 sudo git config --system --add safe.directory <your-path>
+
 cd /opt/watch-git
 sudo ./watch-git install
 
@@ -14,5 +16,6 @@ sudo ./watch-git install
 
 sudo systemctl start watch-git
 sudo systemctl status watch-git
+sudo systemctl restart watch-git
 ```
 
